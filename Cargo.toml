@@ -5,5 +5,5 @@ edition = "2021"
 
 [dependencies]
 actix-web = "4"
-bollard = "0.16"
+bollard = "0.17"
 serde = "1"
