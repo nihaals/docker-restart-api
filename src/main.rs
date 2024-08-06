@@ -22,7 +22,9 @@ async fn search(state: web::Data<State>, body: web::Json<SearchBody>) -> HttpRes
             for name in names {
                 if name.contains(&body.query) {
                     if found_container.is_some() {
-                        return HttpResponse::BadRequest().body("Multiple containers found");
+                        return HttpResponse::BadRequest()
+                            .content_type("text/plain")
+                            .body("Multiple containers found");
                     }
                     found_container = Some(container.id.clone().unwrap());
                 }
@@ -35,9 +37,13 @@ async fn search(state: web::Data<State>, body: web::Json<SearchBody>) -> HttpRes
             .restart_container(&container_id, None)
             .await
             .unwrap();
-        HttpResponse::Ok().body("Container restarted")
+        HttpResponse::Ok()
+            .content_type("text/plain")
+            .body("Container restarted")
     } else {
-        HttpResponse::NotFound().body("Container not found")
+        HttpResponse::NotFound()
+            .content_type("text/plain")
+            .body("Container not found")
     }
 }
 
